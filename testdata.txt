@@ -1,0 +1,4 @@
+name, age, role, gender, status
+John, 34, admin
+Sarah, 45, VP
+
