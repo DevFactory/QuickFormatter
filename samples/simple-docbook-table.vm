@@ -1,0 +1,13 @@
+<table>
+  <tgroup align='left' colsep='1' rowsep='1'>
+    <tbody>
+#foreach( $line in $DATA)
+      <row>
+#foreach ($item in $line)
+        <entry>$item</entry>
+#end
+      </row>
+#end
+    </tbody>
+  </tgroup>
+</table>

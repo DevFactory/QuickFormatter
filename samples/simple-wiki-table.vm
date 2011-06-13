@@ -1,0 +1,25 @@
+{|
+#foreach( $line in $DATA) |-
+#foreach ($item in $line) 
+#if($header=="yes")  ! $item
+#else  | $item
+#end
+#end
+#end
+|}
+
+
+
+
+## {| border=1
+##  |+ Caption
+## |-
+##   ! Heading 1
+##   ! Heading 2
+## |-
+##   | A
+##   | B
+## |-
+##   | C
+##   | D
+## |}
