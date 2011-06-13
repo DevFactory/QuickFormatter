@@ -73,11 +73,13 @@ public class QuickFormatter
 	
 	public void processTemplate(ArrayList<ArrayList<String>> data)
 	{
+		//create a velocity context
 	    	Velocity.init();
 	    VelocityContext vc = new VelocityContext();
 	    
-	    vc.put("DATA", data);
+	    vc.put("DATA", data);			// put our data in the context
 	        
+	    //go get the template
 	    Template template = null;
 	    try
 	    {
@@ -87,7 +89,8 @@ public class QuickFormatter
 	    {
 	       exitWithMessage("Error processing template:\n"+e.toString());
 	    }
-	    
+
+	    // do the hard work and out to screen or onput file if there is one
 	    if (_outputfile == "")
 	    {
 	    		StringWriter sw = new StringWriter();
