@@ -1,0 +1,20 @@
+
+<variablelist>
+#foreach( $line in $DATA)
+   #foreach( $item in $line)
+
+      #if ( $foreach.count == 1 )   
+         <varlistentry>
+            <term>$item</term> 
+            <listitem>
+               <itemizedlist>
+      #else
+                  <listitem><para>$item</para></listitem>
+      #end
+   #end
+               </itemizedlist>
+            </listitem>
+         </varlistentry>
+#end
+</variablelist>
+
