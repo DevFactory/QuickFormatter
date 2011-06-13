@@ -1,10 +1,22 @@
 package com.redhat.ecs.quickformatter;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 
-import org.apache.velocity.*;
-import org.apache.velocity.app.*;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
 
 public class QuickFormatter 
 {
@@ -12,6 +24,7 @@ public class QuickFormatter
 	private String _outputfile="";
 	private String _delimiter=" ";
 	private String _template="";
+	private Boolean _isXML = false;
 
 	public QuickFormatter() {}
 
@@ -68,7 +81,6 @@ public class QuickFormatter
 	        		exitWithMessage("some error processing:" + e.toString());
 	        }
 			return data;
-		
 	}
 	
 	public void processTemplate(ArrayList<ArrayList<String>> data)
@@ -90,22 +102,44 @@ public class QuickFormatter
 	       exitWithMessage("Error processing template:\n"+e.toString());
 	    }
 
-	    // do the hard work and out to screen or onput file if there is one
+		// this is all kind of crap
+	    
+		StringWriter sw = new StringWriter();
+		template.merge( vc, sw );
+	    
+		StringWriter outputsw = new StringWriter();
+		String outputString = sw.toString();
+
+		if (_isXML)
+		{
+			Document doc;
+			try 
+			{
+				doc = DocumentHelper.parseText(sw.toString());
+				OutputFormat format = OutputFormat.createPrettyPrint();  
+				XMLWriter xw = new XMLWriter(outputsw, format);  
+				xw.write(doc);
+				outputString = outputsw.toString();
+			} 
+			catch (Exception e) 
+			{
+				exitWithMessage("Output was not parsable XML:\n"+e.toString());
+			} 
+		}
+		
+	    // out to screen or output file if there is one
 	    if (_outputfile == "")
 	    {
-	    		StringWriter sw = new StringWriter();
-	    		template.merge( vc, sw );
-	    		System.out.println(sw );
+			System.out.println(outputString);
 	    }
 	    else
 	    {
-			File foFile= null;
-			FileWriter fw = null;
 	        try 
 	        {
-				foFile= new File(_outputfile);
-	        		fw = new FileWriter(foFile);
-	        		template.merge(vc,fw);
+	        		File foFile = new File(_outputfile);
+	        		FileWriter fw = new FileWriter(foFile);
+	        		//template.merge(vc,fw);
+	        		fw.write(outputString);
 	        		fw.flush();
 	        		System.out.println("Output written to file \""+_outputfile+"\" successfully.\n");
 			} 
@@ -113,9 +147,7 @@ public class QuickFormatter
 	        	{
 				exitWithMessage("Couldn't open output file \"" + _outputfile + "\" not found.");
 			}
-
 	    }
-
 	}
 	
 	//mostly superfluous accessors & mutators below (they got auto-generated, it would have been rude to say no)
@@ -158,5 +190,14 @@ public class QuickFormatter
 	{
 		return _template;
 	}
+
+	public void setIsXML(Boolean isXML) {
+		this._isXML = isXML;
+	}
+
+	public Boolean getIsXML() {
+		return _isXML;
+	}
+
 
 }

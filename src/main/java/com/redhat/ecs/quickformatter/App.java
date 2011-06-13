@@ -1,6 +1,12 @@
 package com.redhat.ecs.quickformatter;
 
-import org.apache.commons.cli.*;
+import org.apache.commons.cli.BasicParser;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+
+
 
 public class App {
 
@@ -8,6 +14,7 @@ public class App {
 	private static String output_file = "";
 	private static String delimiter = " ";
 	private static String template_file = "";
+	private static Boolean isXML = false;
 
 	public static void main(String[] args) 
 	{
@@ -19,6 +26,7 @@ public class App {
 		qf.setInputfile(input_file);
 		qf.setOutputfile(output_file);
 		qf.setTemplate(template_file);
+		qf.setIsXML(isXML);
 		qf.doFormatting();
 		
 	}
@@ -37,6 +45,8 @@ public class App {
 			   options.addOption("o", "ouput", true, "output file");
 			   options.addOption("d", "delimiter", true, "delimiter");
 			   options.addOption("t", "template", true, "template file");
+			   options.addOption("x", "XML", false, "output is XML (pretty printing)");
+			   
 			   
 			   CommandLine commandLine = parser.parse( options, args );
 		      
@@ -58,6 +68,7 @@ public class App {
 		      if ( commandLine.hasOption('o')) output_file = commandLine.getOptionValue('o');
 		      if ( commandLine.hasOption('d')) delimiter = commandLine.getOptionValue('d');
 		      if ( commandLine.hasOption('t')) template_file = commandLine.getOptionValue('t');
+		      if ( commandLine.hasOption('x')) isXML = true;
 		   }
 		   catch (Exception e) 
 		   {
@@ -71,7 +82,7 @@ public class App {
 	   private  void printUsage(Options options, Boolean andExit) 
 	   {
 		   String HEADER = "";
-		   String USAGE = "java -jar QuickFormatter.jar -i inputfile [-o outputfile] [-d delimiter] ";
+		   String USAGE = "java -jar QuickFormatter.jar -i inputfile [-o outputfile] [-d delimiter] [-x]";
 		   String FOOTER = "\n\n";
 		   HelpFormatter helpFormatter = new HelpFormatter( );
 		   helpFormatter.setWidth( 100 );
