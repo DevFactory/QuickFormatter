@@ -14,8 +14,8 @@ Sample templates are included for docbook and wiki text tables.
 2. You need to be capable of creating Apache Velocity templates for your output.  Samples are included.
 
 ## Install
-1. Download `QuickFormatter.zip`
-2. Unzip it somewhere, e.g. `~/Applications/QuickFormatter/`.  This directory will be referred to as `QF_PATH`
+1. Download the package.  Scroll back up the page, click on the Download button and click on `QuickFormatter.zip`
+2. Unzip it somewhere, e.g. `~/Applications/QuickFormatter/`.  This directory will be referred to as `QF_PATH` for the rest of this document.
 4. Done
 
 ## Building
@@ -60,8 +60,20 @@ structure.  This structure is then inserted into the template that you specify.
 The template is processed and the output is sent either to standard out or to
 the file that you specify.
 
-The data structure is an array of arrays and is inserted into the template with 
-the name `DATA`.  Generally you would iterate over this in a nested manner. The
+The data structure is an array of arrays (actually `ArrayList`s) and is inserted into the template with 
+the name `DATA`.  Some example of accessing elements of this data structure:
+
+     ## show first item of the first row
+     $DATA.get(0).get(0)
+     
+     ## show number of items in the third row
+     $DATA.get(2).size()
+
+     ## 
+
+Note that just like normal Java arrays the indexes start at `0` and not `1`.
+
+Generally you would iterate over this in a nested manner using `#foreach`. The
 example below creates a simple HTML table:
    
     <table>
@@ -74,7 +86,6 @@ example below creates a simple HTML table:
      #end
      </table>
 
-QuickFormatter uses Apache Velocity as it's template engine to format its output.  
 
 ## Sample Templates
 
