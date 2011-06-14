@@ -1,0 +1,4 @@
+#foreach( $line in $DATA)
+#foreach ($item in $line)|| $item #end
+||
+#end
