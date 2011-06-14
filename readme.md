@@ -102,7 +102,7 @@ for them.
 `docbook-variablelist.vm` outputs a docbook XML variable list using the first
 item in each row as the `<term>` and each other item as an `<itemizedlist>`.
 
-
+`simple-trac-table.vm` outputs a simple table for a Trac wiki.
 
 
 
