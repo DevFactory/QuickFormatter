@@ -79,7 +79,7 @@ example below creates a simple HTML table:
     <table>
     #foreach( $line in $DATA)
       <tr>
-      #foreach( $item in $DATA)
+      #foreach( $item in $line)
         <td>$item</td>
       #end
       </tr>
